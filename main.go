@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
+	"github.com/fatih/color"
 	"github.com/sakajunquality/tcpong/ping"
 	"github.com/urfave/cli"
 )
@@ -46,16 +48,21 @@ func main() {
 			return cli.NewExitError("Port number should be interger", 2)
 		}
 
+		reqInterval, reqTimeout := time.Duration(c.GlobalInt("i"))*time.Second, time.Duration(c.GlobalInt("t"))*time.Second
+		reqProtocol := strings.ToLower(c.GlobalString("p"))
+
 		t := ping.Target{
-			Protocol: c.GlobalString("p"),
+			Protocol: reqProtocol,
 			Host:     c.Args().Get(0),
 			Port:     port,
-			Timeout:  time.Duration(c.GlobalInt("t")) * time.Second,
+			Timeout:  reqTimeout,
 		}
 
 		if !t.IsValid() {
 			return cli.NewExitError("Input values are not valid", 2)
 		}
+
+		color.Blue("%s PING %s:%d Interval:%s Timeout:%s", t.Protocol, t.Host, t.Port, reqInterval, reqTimeout)
 
 		for {
 			go func() {
@@ -71,7 +78,7 @@ func main() {
 			}()
 
 			fmt.Printf("tcp_seq=%d %s\n", seq, <-ch)
-			time.Sleep(time.Duration(c.GlobalInt("i")) * time.Second)
+			time.Sleep(reqInterval)
 		}
 	}
 
