@@ -40,7 +40,7 @@ func main() {
 		hostString, portString := c.Args().Get(0), c.Args().Get(1)
 		// to do validate
 
-		ch := make(chan string)
+		ch := make(chan string, 1)
 		var seq int
 
 		t := ping.Target{
