@@ -3,18 +3,10 @@ package ping
 import (
 	"fmt"
 	"net"
-	"time"
 
 	"github.com/mikioh/tcp"
 	"github.com/mikioh/tcpinfo"
 )
-
-type Target struct {
-	Protocol string
-	Host     string
-	Port     string
-	Timeout  time.Duration
-}
 
 type Res struct {
 	RemoteAddr string
@@ -24,7 +16,7 @@ type Res struct {
 
 func (t *Target) Dial() (Res, error) {
 	r := Res{}
-	network := fmt.Sprintf("%s:%s", t.Host, t.Port)
+	network := fmt.Sprintf("%s:%d", t.Host, t.Port)
 	c, err := net.DialTimeout(t.Protocol, network, t.Timeout)
 
 	if err != nil {
