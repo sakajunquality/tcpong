@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/sakajunquality/tcpong/ping"
@@ -37,17 +38,23 @@ func main() {
 			return cli.NewExitError("illegal number of args", 2)
 		}
 
-		hostString, portString := c.Args().Get(0), c.Args().Get(1)
-		// to do validate
-
 		ch := make(chan string, 1)
 		var seq int
 
+		port, err := strconv.Atoi(c.Args().Get(1))
+		if err != nil {
+			return cli.NewExitError("Port number should be interger", 2)
+		}
+
 		t := ping.Target{
 			Protocol: c.GlobalString("p"),
-			Host:     hostString,
-			Port:     portString,
+			Host:     c.Args().Get(0),
+			Port:     port,
 			Timeout:  time.Duration(c.GlobalInt("t")) * time.Second,
+		}
+
+		if !t.IsValid() {
+			return cli.NewExitError("Input values are not valid", 2)
 		}
 
 		for {
