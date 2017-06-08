@@ -26,11 +26,12 @@ func (t *Target) Dial() (Res, error) {
 	r := Res{}
 	network := fmt.Sprintf("%s:%s", t.Host, t.Port)
 	c, err := net.DialTimeout(t.Protocol, network, t.Timeout)
-	defer c.Close()
 
 	if err != nil {
 		return r, err
 	}
+
+	defer c.Close()
 
 	r.RemoteAddr = c.RemoteAddr().String()
 	r.LocalAddr = c.LocalAddr().String()
