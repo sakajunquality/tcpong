@@ -1,11 +1,15 @@
 TCPONG
 =================================
+[![Build Status](https://travis-ci.org/sakajunquality/tcpong.svg?branch=master)](https://travis-ci.org/sakajunquality/tcpong)
+[![Go Report Card](https://goreportcard.com/badge/github.com/sakajunquality/tcpong)](https://goreportcard.com/report/github.com/sakajunquality/tcpong)
+
+![image](./image.png)
+
 
 Overview
 ------------
 Ping over TCP
 
-![image](./image.png)
 
 
 Installation
