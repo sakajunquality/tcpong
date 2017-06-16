@@ -17,6 +17,7 @@ type Res struct {
 func (t *Target) Dial() (Res, error) {
 	r := Res{}
 	network := fmt.Sprintf("%s:%d", t.Host, t.Port)
+	fmt.Println(network)
 
 	c, err := net.DialTimeout(t.Protocol, network, t.Timeout)
 	if err != nil {
