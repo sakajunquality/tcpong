@@ -1,6 +1,7 @@
 package ping
 
 import (
+	"fmt"
 	"net"
 	"strconv"
 	"testing"
@@ -32,7 +33,7 @@ func TestDialLocal(t *testing.T) {
 	}
 
 	localTarget.Port = intPort
-	fmt.println(intPort)
+	fmt.Println(intPort)
 
 	_, err = localTarget.Dial()
 
