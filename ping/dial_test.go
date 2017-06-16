@@ -1,16 +1,11 @@
 package ping
 
 import (
+	"net"
+	"strconv"
 	"testing"
 	"time"
 )
-
-var localTarget = Target{
-	Protocol: "tcp",
-	Host:     "127.0.0.1",
-	Port:     22727,
-	Timeout:  time.Duration(1) * time.Second,
-}
 
 func TestDialLocal(t *testing.T) {
 	ln, err := newLocalListener("tcp")
@@ -19,6 +14,24 @@ func TestDialLocal(t *testing.T) {
 		t.Fatal(err)
 	}
 	defer ln.Close()
+
+	var localTarget = Target{
+		Protocol: "tcp",
+		Host:     "127.0.0.1",
+		Timeout:  time.Duration(1) * time.Second,
+	}
+
+	_, port, err := net.SplitHostPort(ln.Addr().String())
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	intPort, err := strconv.Atoi(port)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	localTarget.Port = intPort
 
 	_, err = localTarget.Dial()
 
