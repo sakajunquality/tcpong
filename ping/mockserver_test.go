@@ -8,7 +8,7 @@ import (
 func newLocalListener(network string) (net.Listener, error) {
 	switch network {
 	case "tcp":
-		if ln, err := net.Listen("tcp4", "127.0.0.1:22727"); err == nil {
+		if ln, err := net.Listen("tcp4", ":22727"); err == nil {
 			return ln, nil
 		}
 	}
