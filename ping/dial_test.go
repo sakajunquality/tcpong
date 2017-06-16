@@ -32,6 +32,7 @@ func TestDialLocal(t *testing.T) {
 	}
 
 	localTarget.Port = intPort
+	fmt.println(intPort)
 
 	_, err = localTarget.Dial()
 
