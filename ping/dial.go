@@ -8,14 +8,9 @@ import (
 	"github.com/mikioh/tcpinfo"
 )
 
-type Res struct {
-	RemoteAddr string
-	LocalAddr  string
-	Info       *tcpinfo.Info
-}
-
 func (t *Target) Dial() (Res, error) {
-	r := Res{}
+	r := Res{protocol: t.Protocol, seq: t.Seq}
+	t.Seq++
 	network := fmt.Sprintf("%s:%d", t.Host, t.Port)
 
 	c, err := net.DialTimeout(t.Protocol, network, t.Timeout)
@@ -24,19 +19,22 @@ func (t *Target) Dial() (Res, error) {
 	}
 
 	defer c.Close()
+	r.remoteAddr, r.localAddr = c.RemoteAddr().String(), c.LocalAddr().String()
 
-	r.RemoteAddr, r.LocalAddr = c.RemoteAddr().String(), c.LocalAddr().String()
-
-	r.Info, err = getTCPInfo(c)
-	if err != nil {
-		return r, err
+	switch t.Protocol {
+	case "tcp":
+		info, err := getTCPInfo(c)
+		if err != nil {
+			return r, err
+		}
+		r.rtt = info.RTT
+		r.state = fmt.Sprintf("%s", info.State)
 	}
 
 	return r, nil
 }
 
 func getTCPInfo(c net.Conn) (*tcpinfo.Info, error) {
-
 	tc, err := tcp.NewConn(c)
 	if err != nil {
 		return nil, err
