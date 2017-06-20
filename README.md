@@ -3,7 +3,8 @@ TCPONG
 [![Build Status](https://travis-ci.org/sakajunquality/tcpong.svg?branch=master)](https://travis-ci.org/sakajunquality/tcpong)
 [![codecov](https://codecov.io/gh/sakajunquality/tcpong/branch/master/graph/badge.svg)](https://codecov.io/gh/sakajunquality/tcpong)
 [![Go Report Card](https://goreportcard.com/badge/github.com/sakajunquality/tcpong)](https://goreportcard.com/report/github.com/sakajunquality/tcpong)
-
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/sakajunquality/tcpong/master/LICENSE)
+[![Maintenance](https://img.shields.io/maintenance/yes/2017.svg)]()
 ![image](./image.png)
 
 
