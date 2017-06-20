@@ -11,6 +11,7 @@ type Target struct {
 	Host     string        `validate:"nonzero"`
 	Port     int           `validate:"min=0, max=65535"`
 	Timeout  time.Duration `validate:"min=0"`
+	Seq      int           `validate:"min=0"`
 }
 
 func (t *Target) IsValid() bool {

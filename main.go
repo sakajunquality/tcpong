@@ -41,7 +41,6 @@ func main() {
 		}
 
 		ch := make(chan string, 1)
-		var seq int
 
 		port, err := strconv.Atoi(c.Args().Get(1))
 		if err != nil {
@@ -67,17 +66,16 @@ func main() {
 		for {
 			go func() {
 				r, err := t.Dial()
-				seq++
 
 				if err != nil {
 					ch <- fmt.Sprintf("Error: %s", err)
 					return
 				}
 
-				ch <- fmt.Sprintf("state=%s fromr=%s rtt=%s", r.Info.State, r.RemoteAddr, r.Info.RTT)
+				ch <- r.String()
 			}()
 
-			fmt.Printf("tcp_seq=%d %s\n", seq, <-ch)
+			fmt.Printf("%s\n", <-ch)
 			time.Sleep(reqInterval)
 		}
 	}
