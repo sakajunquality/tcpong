@@ -4,22 +4,12 @@ import (
 	"fmt"
 	"net"
 
-	"time"
-
 	"github.com/mikioh/tcp"
 	"github.com/mikioh/tcpinfo"
 )
 
-type Res struct {
-	seq        int
-	remoteAddr string
-	localAddr  string
-	state      string
-	rtt        time.Duration
-}
-
 func (t *Target) Dial() (Res, error) {
-	r := Res{seq: t.Seq}
+	r := Res{protocol: t.Protocol, seq: t.Seq}
 	t.Seq++
 	network := fmt.Sprintf("%s:%d", t.Host, t.Port)
 
@@ -37,7 +27,6 @@ func (t *Target) Dial() (Res, error) {
 		if err != nil {
 			return r, err
 		}
-
 		r.rtt = info.RTT
 		r.state = fmt.Sprintf("%s", info.State)
 	}
@@ -59,8 +48,4 @@ func getTCPInfo(c net.Conn) (*tcpinfo.Info, error) {
 	}
 
 	return i.(*tcpinfo.Info), nil
-}
-
-func (r *Res) String() string {
-	return fmt.Sprintf("tcp_seq=%d state=%s fromr=%s rtt=%s", r.seq, r.state, r.remoteAddr, r.rtt)
 }
